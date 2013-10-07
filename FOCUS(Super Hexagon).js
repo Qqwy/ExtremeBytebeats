@@ -15,7 +15,7 @@
 			   FOCUS
 			HEXAGONEST
 		      SUPER HEXAGON
-								v1.2
+							      v1.2.1
 ====================================================================
 ====================================================================
 Bytebeat version of "Focus", made by DoubleyouDashM  (Wiebe-Marten Wijnja)
@@ -54,7 +54,7 @@ Now I'll go back to actually beating the game! ;D
 //Some values for you to tamper with:
 
 backwards = false,	//Enable this for sdrawkcab fun!
-factor=4.055, 		//change this value to increase or decrease speed. 1.055 is the speed the original Hexagonest has.
+factor=1.055, 		//change this value to increase or decrease speed. 1.055 is the speed the original Hexagonest has.
 speedup = true, 	//Song will increase its speed slightly while going on! :D
 
 
