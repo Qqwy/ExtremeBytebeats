@@ -15,7 +15,7 @@
 			   FOCUS
 			HEXAGONEST
 		      SUPER HEXAGON
-							      v1.2.1
+							      v1.3
 ====================================================================
 ====================================================================
 Bytebeat version of "Focus", made by DoubleyouDashM  (Wiebe-Marten Wijnja)
@@ -67,7 +67,7 @@ speedup = true, 	//Song will increase its speed slightly while going on! :D
 
 factor+=(speedup?t*.000000001:0),
 //Ensure pitch correction:
-!hq&&(t*=4.1),
+!hq&&(t*=5.6),
 //Play backwards when enabled
 backwards&&(t=(8<<20)-t),
 
@@ -127,6 +127,10 @@ jump=function(melody, melody2, jumpspeed, mspeed, mmod, ocshift, envelope, espee
 	return (sin(((t)%jumpspeed)*Math.pow(2, g/12-ocshift)    	)*gain   *(envelope?ge(envelope, espeed, eshiftspeed, emod):1)||0)
 },
 
+rkick=function(ocshift, envelope, espeed, eshiftspeed, emod, gain){
+	return (((sqrt(t%0x2000)<<6  &255)/127-1) *gain *(envelope?ge(envelope, espeed, eshiftspeed, emod):1)||0);
+},
+
 
 //Get Melody function. Returns the proper current tone from the melody string.
 	//Tone height in semitones is the ASCII value of the current char.
@@ -161,7 +165,7 @@ b1m=   "AAAAYMAMAAAAYMAMAAAAYMAMAAAAYMAM====UM=M====UM=M????WM?M????WM?M",
 b1e="88882222",
 
 b2m="AAAAAAAC====????",
-b2e=(t>>20==0?"9":"2"),
+b2e=(t>>20==0?"99":"02"),
 
 bell1m="AACCDDAAAACCDDAAAACCDDAAAACCDDAAAAHHKKFFAAHHKKFFFFHHMMKKKPOKMM  ",
 bell1e="3030303030303030303030303030303030303030303030303030303033333300",
@@ -228,7 +232,7 @@ INSTRUMENTS
 +//Bass 1
 	((!(t>>20)||(t>>19==5))?pulse(b1m,13,64,7,b1e, 0x1000, 13,8, .2):0)
 +//Bass 2 ( and 3 for intermezzo)
-	((t>>20!=3)&&(t>>20!=6)&&(t>>20!=7)?saw(b2m,15,16,6,b2e, 0x2000, 13, 1, .1):0)
+	((t>>20!=3)&&(t>>20!=6)&&(t>>20!=7)?saw(b2m,15,16,6,b2e, 0x2000, 13, 2, .3):0)
 +//Bass 3
 	((t>>20==3)||(t>>20==4)||(t>>20==5)?saw(b3m,17,8,6,b3e, 0x1000, 13,1, .15):0)
 +//Bells 1
@@ -260,10 +264,14 @@ INSTRUMENTS
 	((t>>19==14)||(t>>19==15)?tri(m8,16,8,8,m8e, 0x1000, 12,4, .3):0)
 +
 
+
 //Hihat
 	(((t>>19!=14)&&(t>>19!=15))?
+
 	noise( 1, hihate, 0x800, 11, 32, .1)
 +//Snare
 	noise( 3, snaree, 0x1000, 13, 8, .2)
+
 +//Bass Drum
-	pulse(base,13,basemod,9,basee, 0x1000, 13,basemod, .5):0)
+
+	rkick(9,basee, 0x1000, 13,basemod, .3):0)
